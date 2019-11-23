@@ -1,0 +1,106 @@
+<h2>よく使うPerlスニペット</h2>
+
+Perlでアレ、どうやって書くんだっけ？と毎回悩むものの、エディタに設定を組み込む気合いも足りない私は、よく書くアレをどっかからコピペで済ませたい。
+そんな、ものぐさ太郎な私のためのメモ書きです。
+
+<h3>標準入出力を全部UTF-8にしたい</h3>
+<pre>
+use strict;
+use warnings;
+use utf8;
+use open IO => qw/:encoding(UTF-8) :std/;
+</pre>
+
+<h3>標準入出力を全部Shift_JISにしたい</h3>
+<pre>
+use strict;
+use warnings;
+use utf8;
+use open IO => qw/:encoding(cp932) :std/;
+</pre>
+
+<h3>入出力を個別に(ｴﾝ|ﾃﾞ)ｺｰﾄﾞしたい</h3>
+<pre>
+use strict;
+use warnings;
+use utf8;
+use Encode 'encode', 'decode';
+</pre>
+
+<h3>標準入出力をまとめて(ｴﾝ|ﾃﾞ)ｺｰﾄﾞしたい</h3>
+<pre>
+use strict;
+use warnings;
+use utf8;
+binmode STDIN, ':encoding(cp932)';
+binmode STDOUT, ':encoding(cp932)';
+binmode STDERR, ':encoding(cp932)';
+</pre>
+
+<h3>データをダンプして中身を丸見えにしたい</h3>
+<pre>
+use Data::Dumper;
+
+print Dumper $secret;
+</pre>
+
+<h3>MySQLに接続したい</h3>
+<pre>
+use DBI;
+
+my $database = "DB_NAME";
+my $hostname = "localhost";
+my $user = "YOUR_USER_NAME";
+my $password = "YOUR_PASSWORD";
+my $dbh = DBI->connect(
+    "DBI:mysql:$database:$hostname",
+    $user,
+    $password
+) or die "cannot connect to MySWL: $DBI::errstr";
+$dbh->do("set names utf8");
+</pre>
+
+<h3>ハッシュのキーとバリューを展開したい</h3>
+<pre>
+my %address = (
+    "上岡" => "愛知県稲沢市",
+    "山田" => "東京都渋谷区",
+);
+
+while (my ($key, $value) = each(%address)){
+    print "key=$key, value=$value\n";
+}
+</pre>
+
+<h3>ハッシュのキーを展開したい</h3>
+<pre>
+my %address = (
+    "上岡" => "愛知県稲沢市",
+    "山田" => "東京都渋谷区",
+);
+
+foreach my $key(keys(%address)){
+    print "$address{$key}\n";
+}
+</pre>
+
+<h3>ファイルを読み込む</h3>
+<pre>
+sub open_file {
+    my $filename = shift;
+    open my $fh, '<', $filename
+        or die "Couldn't open $read_filename : $!" ; return $fh;
+}
+</pre>
+
+<h3>ファイルに書き込む</h3>
+<pre>
+sub write_file {
+    my ($filename, $contents) = @_;
+    open my $write, '>>', $filename
+        or die "Couldn't open : $!";
+    print {$write} $contents;
+    close $write;
+}
+</pre>
+
