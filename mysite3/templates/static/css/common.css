@@ -13,7 +13,7 @@
   
   /* header */
   .header {
-    background:#212121;
+    background:#FF5A36;
     margin-bottom:15px;
   }
   
@@ -163,7 +163,7 @@
     box-shadow: 0 0 3px rgba(0,0,0,.1);
   }
   .side-list-title {
-    background:#222;
+    background:#FF5A36;
     color:white;
     font-weight:bold;
     padding: 7px 0px 5px 0px;
